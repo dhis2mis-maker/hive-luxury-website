@@ -1,7 +1,11 @@
 'use client'
 
-import App from '../components/App'
+import { useState, useEffect } from 'react'
 
 export default function Home() {
-  return <App />
+  return (
+    <div style={{ background: '#08080a', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <p style={{ color: '#c9a96e', fontFamily: 'sans-serif' }}>The Hive — Loading</p>
+    </div>
+  )
 }
