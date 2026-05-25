@@ -12,7 +12,9 @@
     "react": "^18",
     "react-dom": "^18",
     "next-sanity": "^5.1.0",
-    "@sanity/image-url": "^1.0.2"
+    "@sanity/image-url": "^1.0.2",
+    "sanity": "^3.30.0",
+    "@sanity/vision": "^3.30.0"
   },
   "devDependencies": {
     "typescript": "^5",
