@@ -151,10 +151,6 @@ interface Property {
 
 function Grain() {
   return (
-<<<<<<< HEAD
-    <div style={{ background: '#08080a', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ color: '#c9a96e', fontFamily: 'sans-serif' }}>The Hive — Coming Soon</p>
-=======
     <div style={{
       position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none",
       backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")`,
@@ -289,7 +285,6 @@ function PropertyCard({ property, onClick, index }: { property: Property; onClic
         <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#f5f0e8", margin: 0, lineHeight: 1, borderBottom: hovered ? "1px solid rgba(201,169,110,0.3)" : "1px solid transparent", paddingBottom: "10px", marginBottom: "10px", transition: "border-color 0.3s" }}>{property.name}</h3>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(245,240,232,0.45)", lineHeight: 1.5, letterSpacing: "0.02em" }}>{property.tagline}</p>
       </div>
->>>>>>> e763584b9f69640ea6c05e20027835e6518a0599
     </div>
   );
 }
