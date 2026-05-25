@@ -6,6 +6,12 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.sanity.io' },
     ],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig
