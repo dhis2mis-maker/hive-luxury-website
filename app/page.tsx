@@ -1,128 +1,10 @@
 'use client'
 
 import { useState, useEffect } from "react";
-
-const properties: Property[] = [
-  {
-    id: 1,
-    name: "XANADU",
-    tagline: "Sun-drenched, open, tranquil",
-    location: "Ravine Court · Camps Bay, Cape Town",
-    locationShort: "Camps Bay",
-    type: "Luxury Villa",
-    status: "Available for Exclusive Stays",
-    beds: 4, baths: 4, parking: 2, guests: 8,
-    pool: "Private Heated Pool",
-    view: "Ocean · Mountain",
-    kitchen: "Fully equipped, chef-ready",
-    laundry: "In-property",
-    housekeeper: "Daily service included",
-    petFriendly: "On request",
-    description: "Xanadu is not simply a residence — it is a state of being. Perched above the Atlantic on the heights of Ravine Court, this extraordinary home commands panoramic ocean views across the full sweep of Camps Bay below. Floor-to-ceiling glass dissolves the boundary between interior and horizon, flooding every room with the kind of light that slows time.",
-    shortDesc: "Panoramic Atlantic views, floor-to-ceiling glass, and four elegantly appointed bedrooms perched above Camps Bay.",
-    features: ["24hr Security", "Private Chef Arrangements", "Airport Transfers", "Dedicated Host"],
-    amenities: ["Pool Terrace", "Ocean Views", "Master Suite", "Chef Kitchen"],
-    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&q=85",
-    thumb: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1400&q=85",
-      "https://images.unsplash.com/photo-1613977257365-aaae5a9817ff?w=1400&q=85",
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1400&q=85",
-      "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1400&q=85",
-    ],
-    channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-  },
-  {
-    id: 2,
-    name: "STATION PENTHOUSE",
-    tagline: "Urban elevation, coastal soul",
-    location: "De Waterkant · Cape Town",
-    locationShort: "De Waterkant",
-    type: "Penthouse",
-    status: "Available for Exclusive Stays",
-    beds: 3, baths: 3, parking: 2, guests: 6,
-    pool: "Rooftop Plunge Pool",
-    view: "City · Mountain · Harbour",
-    kitchen: "Fully equipped, chef-ready",
-    laundry: "In-property",
-    housekeeper: "Daily service included",
-    petFriendly: "On request",
-    description: "Rising above the cobblestoned lanes of De Waterkant, the Station Penthouse is a study in refined urban living. The rooftop terrace commands a 360° sweep of Table Mountain, the V&A Waterfront, and the Atlantic seaboard — a panorama that redefines what it means to be in Cape Town.",
-    shortDesc: "Rooftop plunge pool with 360° views of Table Mountain, the Waterfront, and the Atlantic seaboard.",
-    features: ["Rooftop Terrace", "Private Chef Arrangements", "Concierge Service", "Dedicated Host"],
-    amenities: ["Rooftop Pool", "City Views", "Mountain Views", "Harbour Views"],
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
-    thumb: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1400&q=85",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=85",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=85",
-      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1400&q=85",
-    ],
-    channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-  },
-  {
-    id: 3,
-    name: "THE CUBE",
-    tagline: "Architectural precision, Atlantic light",
-    location: "Bantry Bay · Cape Town",
-    locationShort: "Bantry Bay",
-    type: "Luxury Villa",
-    status: "Available for Exclusive Stays",
-    beds: 5, baths: 5, parking: 2, guests: 10,
-    pool: "Infinity Pool",
-    view: "Ocean · Sunset",
-    kitchen: "Fully equipped, chef-ready",
-    laundry: "In-property",
-    housekeeper: "Daily service included",
-    petFriendly: "On request",
-    description: "The Cube is an exercise in architectural restraint — a home where every angle is deliberate and every surface honours the light. Nestled into the Bantry Bay cliffs, the infinity pool appears to dissolve into the Atlantic at the horizon. Sunsets here are not observed, they are experienced.",
-    shortDesc: "Clifftop infinity pool merging with the Atlantic horizon — architectural restraint meets raw natural beauty.",
-    features: ["Infinity Pool", "Chef Service", "Airport Transfers", "Concierge"],
-    amenities: ["Infinity Pool", "Ocean Views", "Sunset Terrace", "Chef Kitchen"],
-    image: "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200&q=85",
-    thumb: "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1400&q=85",
-      "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1400&q=85",
-      "https://images.unsplash.com/photo-1523217582562-09d05cc7d71a?w=1400&q=85",
-      "https://images.unsplash.com/photo-1571939228382-b2f2b585ce15?w=1400&q=85",
-    ],
-    channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-  },
-  {
-    id: 4,
-    name: "AZURE PENTHOUSE",
-    tagline: "Where the cliff meets the Atlantic",
-    location: "Clifton · Cape Town",
-    locationShort: "Clifton",
-    type: "Penthouse",
-    status: "Available for Exclusive Stays",
-    beds: 3, baths: 3, parking: 2, guests: 6,
-    pool: "Private Pool",
-    view: "Direct Ocean · Clifton Beaches",
-    kitchen: "Fully equipped, chef-ready",
-    laundry: "In-property",
-    housekeeper: "Daily service included",
-    petFriendly: "On request",
-    description: "Azure sits above Clifton's legendary beaches with the kind of unobstructed ocean exposure that most Cape Town visitors only dream of. The private pool is set at the very edge of the terrace — a liquid frame for the Atlantic. Inside, the penthouse is a composition of calm, curated materials, and considered light.",
-    shortDesc: "Clifton's finest elevation — direct ocean frontage, a private pool at the terrace edge, and the beaches below.",
-    features: ["Direct Ocean Access", "Private Chef Arrangements", "Concierge", "Dedicated Host"],
-    amenities: ["Private Pool", "Beach Access", "Ocean Views", "Clifton Sunsets"],
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85",
-    thumb: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=85",
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1400&q=85",
-      "https://images.unsplash.com/photo-1501117407287-1d77d484695f?w=1400&q=85",
-      "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=1400&q=85",
-    ],
-    channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-  },
-];
+import { client, urlFor, propertiesQuery } from "../lib/sanity";
 
 interface Property {
-  id: number;
+  _id: string;
   name: string;
   tagline: string;
   location: string;
@@ -140,13 +22,10 @@ interface Property {
   housekeeper: string;
   petFriendly: string;
   description: string;
-  shortDesc: string;
   features: string[];
   amenities: string[];
-  image: string;
-  thumb: string;
-  gallery: string[];
   channels: string[];
+  gallery: any[];
 }
 
 function Grain() {
@@ -201,24 +80,34 @@ function Header({ onHome, view }: { onHome: () => void; view: string }) {
   );
 }
 
-function Hero({ onExplore }: { onExplore: () => void }) {
+function Hero({ properties, onExplore }: { properties: Property[]; onExplore: () => void }) {
   const [mounted, setMounted] = useState(false);
   const [imgIdx, setImgIdx] = useState(0);
   useEffect(() => { setTimeout(() => setMounted(true), 150); }, []);
   useEffect(() => {
+    if (properties.length === 0) return;
     const t = setInterval(() => setImgIdx(i => (i + 1) % properties.length), 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [properties]);
+
+  const getImage = (p: Property) => {
+    if (p.gallery && p.gallery.length > 0) return urlFor(p.gallery[0]).width(1800).url();
+    return "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1800&q=85";
+  };
+
   return (
     <section style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
       {properties.map((p, i) => (
-        <img key={p.id} src={p.image} alt={p.name} style={{
+        <img key={p._id} src={getImage(p)} alt={p.name} style={{
           position: "absolute", inset: 0, width: "100%", height: "100%",
           objectFit: "cover", filter: "brightness(0.38) saturate(0.75)",
           opacity: imgIdx === i ? 1 : 0,
           transition: "opacity 1.8s cubic-bezier(0.16,1,0.3,1)",
         }} />
       ))}
+      {properties.length === 0 && (
+        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1800&q=85" alt="hero" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.38) saturate(0.75)" }} />
+      )}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(8,8,10,0.15) 0%, rgba(8,8,10,0.5) 55%, rgba(8,8,10,0.92) 100%)" }} />
       <div style={{ position: "absolute", left: "48px", top: "50%", transform: "translateY(-50%)", width: "1px", height: "120px", background: "linear-gradient(to bottom, transparent, rgba(201,169,110,0.5), transparent)" }} />
       <div style={{
@@ -252,10 +141,12 @@ function Hero({ onExplore }: { onExplore: () => void }) {
           ))}
         </div>
       </div>
-      <div style={{ position: "absolute", bottom: "36px", left: "48px", opacity: mounted ? 0.6 : 0, transition: "opacity 1s 0.8s" }}>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "4px" }}>Currently Showing</p>
-        <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "16px", color: "#f5f0e8", fontWeight: 300 }}>{properties[imgIdx].name}</p>
-      </div>
+      {properties.length > 0 && (
+        <div style={{ position: "absolute", bottom: "36px", left: "48px", opacity: mounted ? 0.6 : 0, transition: "opacity 1s 0.8s" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "4px" }}>Currently Showing</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "16px", color: "#f5f0e8", fontWeight: 300 }}>{properties[imgIdx]?.name}</p>
+        </div>
+      )}
     </section>
   );
 }
@@ -264,11 +155,16 @@ function PropertyCard({ property, onClick, index }: { property: Property; onClic
   const [hovered, setHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setTimeout(() => setMounted(true), index * 100 + 100); }, [index]);
+
+  const thumb = property.gallery && property.gallery.length > 0
+    ? urlFor(property.gallery[0]).width(600).height(400).url()
+    : "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80";
+
   return (
     <div onClick={() => onClick(property)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       style={{ cursor: "pointer", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.7s, transform 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <div style={{ position: "relative", height: "320px", overflow: "hidden", marginBottom: "20px" }}>
-        <img src={property.thumb} alt={property.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.82) saturate(0.8)", transform: hovered ? "scale(1.05)" : "scale(1)", transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1)" }} />
+        <img src={thumb} alt={property.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.82) saturate(0.8)", transform: hovered ? "scale(1.05)" : "scale(1)", transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, rgba(8,8,10,0.6) 100%)", opacity: hovered ? 1 : 0.6, transition: "opacity 0.4s" }} />
         <div style={{ position: "absolute", top: "16px", left: "16px", background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(201,169,110,0.3)", padding: "4px 12px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a96e" }}>{property.type}</div>
         <div style={{ position: "absolute", bottom: "16px", left: "16px", right: "16px", display: "flex", gap: "16px", opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(6px)", transition: "all 0.3s" }}>
@@ -289,7 +185,7 @@ function PropertyCard({ property, onClick, index }: { property: Property; onClic
   );
 }
 
-function CollectionPage({ onSelect }: { onSelect: (p: Property) => void }) {
+function CollectionPage({ properties, onSelect }: { properties: Property[]; onSelect: (p: Property) => void }) {
   return (
     <div style={{ minHeight: "100vh", background: "#08080a", paddingTop: "72px" }}>
       <div style={{ padding: "64px 48px 48px", maxWidth: "1300px", margin: "0 auto" }}>
@@ -307,7 +203,7 @@ function CollectionPage({ onSelect }: { onSelect: (p: Property) => void }) {
         <div style={{ marginTop: "40px", height: "1px", background: "linear-gradient(to right, rgba(201,169,110,0.4), rgba(201,169,110,0.05))" }} />
       </div>
       <div style={{ padding: "0 48px 80px", maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "60px 48px" }}>
-        {properties.map((p, i) => <PropertyCard key={p.id} property={p} onClick={onSelect} index={i} />)}
+        {properties.map((p, i) => <PropertyCard key={p._id} property={p} onClick={onSelect} index={i} />)}
       </div>
       <div style={{ borderTop: "1px solid rgba(201,169,110,0.1)", borderBottom: "1px solid rgba(201,169,110,0.1)", padding: "40px 48px", background: "rgba(201,169,110,0.03)" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -331,31 +227,47 @@ function CollectionPage({ onSelect }: { onSelect: (p: Property) => void }) {
   );
 }
 
-function DetailPage({ property, onBack, onOther }: { property: Property; onBack: () => void; onOther: (p: Property) => void }) {
+function DetailPage({ property, onBack, onOther, allProperties }: { property: Property; onBack: () => void; onOther: (p: Property) => void; allProperties: Property[] }) {
   const [galleryIdx, setGalleryIdx] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [inquired, setInquired] = useState(false);
-  const others = properties.filter(p => p.id !== property.id);
+  const others = allProperties.filter(p => p._id !== property._id);
   useEffect(() => { window.scrollTo(0, 0); setTimeout(() => setMounted(true), 100); }, [property]);
+
+  const getGalleryImage = (idx: number) => {
+    if (property.gallery && property.gallery[idx]) return urlFor(property.gallery[idx]).width(1400).url();
+    return "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1400&q=85";
+  };
+
+  const getThumb = (p: Property) => {
+    if (p.gallery && p.gallery.length > 0) return urlFor(p.gallery[0]).width(600).url();
+    return "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80";
+  };
+
   return (
     <div style={{ minHeight: "100vh", background: "#08080a", paddingTop: "72px" }}>
       <div style={{ position: "relative", height: "80vh", overflow: "hidden", opacity: mounted ? 1 : 0, transition: "opacity 1s" }}>
-        {property.gallery.map((img, i) => (
-          <img key={i} src={img} alt={`${property.name} ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.75) saturate(0.8)", opacity: galleryIdx === i ? 1 : 0, transition: "opacity 1s cubic-bezier(0.16,1,0.3,1)" }} />
+        {(property.gallery || []).map((_, i) => (
+          <img key={i} src={getGalleryImage(i)} alt={`${property.name} ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.75) saturate(0.8)", opacity: galleryIdx === i ? 1 : 0, transition: "opacity 1s cubic-bezier(0.16,1,0.3,1)" }} />
         ))}
+        {(!property.gallery || property.gallery.length === 0) && (
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1400&q=85" alt={property.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.75) saturate(0.8)" }} />
+        )}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.35) 60%, rgba(8,8,10,0.92) 100%)" }} />
         <div style={{ position: "absolute", bottom: "48px", left: "48px", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)", transition: "all 0.8s 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "8px" }}>{property.location}</p>
           <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(48px, 6vw, 84px)", fontWeight: 300, color: "#f5f0e8", margin: 0, lineHeight: 0.95, letterSpacing: "-0.02em" }}>{property.name}</h1>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.5)", marginTop: "10px" }}>{property.tagline}</p>
         </div>
-        <div style={{ position: "absolute", bottom: "48px", right: "48px", display: "flex", gap: "6px" }}>
-          {property.gallery.map((img, i) => (
-            <button key={i} onClick={() => setGalleryIdx(i)} style={{ width: "56px", height: "40px", padding: 0, border: "none", cursor: "pointer", overflow: "hidden", outline: galleryIdx === i ? "1px solid #c9a96e" : "1px solid rgba(255,255,255,0.1)", outlineOffset: "2px" }}>
-              <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7)" }} />
-            </button>
-          ))}
-        </div>
+        {property.gallery && property.gallery.length > 0 && (
+          <div style={{ position: "absolute", bottom: "48px", right: "48px", display: "flex", gap: "6px" }}>
+            {property.gallery.map((_, i) => (
+              <button key={i} onClick={() => setGalleryIdx(i)} style={{ width: "56px", height: "40px", padding: 0, border: "none", cursor: "pointer", overflow: "hidden", outline: galleryIdx === i ? "1px solid #c9a96e" : "1px solid rgba(255,255,255,0.1)", outlineOffset: "2px" }}>
+                <img src={getGalleryImage(i)} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7)" }} />
+              </button>
+            ))}
+          </div>
+        )}
         <div style={{ position: "absolute", top: "24px", right: "48px", background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(201,169,110,0.35)", padding: "6px 16px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#c9a96e" }}>{property.status}</div>
       </div>
 
@@ -373,13 +285,13 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
           <div style={{ marginBottom: "48px" }}>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.35em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "16px" }}>Highlights</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {property.amenities.map(a => <span key={a} style={{ background: "rgba(201,169,110,0.07)", border: "1px solid rgba(201,169,110,0.2)", padding: "7px 16px", fontFamily: "'DM Sans', sans-serif", fontSize: "11px", letterSpacing: "0.08em", color: "rgba(245,240,232,0.65)" }}>{a}</span>)}
+              {(property.amenities || []).map(a => <span key={a} style={{ background: "rgba(201,169,110,0.07)", border: "1px solid rgba(201,169,110,0.2)", padding: "7px 16px", fontFamily: "'DM Sans', sans-serif", fontSize: "11px", letterSpacing: "0.08em", color: "rgba(245,240,232,0.65)" }}>{a}</span>)}
             </div>
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.35em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "16px" }}>Property Details</p>
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-              {[["Location", property.locationShort + ", Cape Town"], ["Property Type", property.type], ["Pool", property.pool], ["View", property.view], ["Kitchen", property.kitchen], ["Laundry", property.laundry], ["Housekeeper", property.housekeeper], ["Pet Friendly", property.petFriendly]].map(([k, v]) => (
+              {[["Location", (property.locationShort || "") + ", Cape Town"], ["Property Type", property.type], ["Pool", property.pool], ["View", property.view], ["Kitchen", property.kitchen], ["Laundry", property.laundry], ["Housekeeper", property.housekeeper], ["Pet Friendly", property.petFriendly]].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)" }}>{k}</span>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(245,240,232,0.7)" }}>{v}</span>
@@ -411,7 +323,7 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
             </button>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", textAlign: "center", color: "rgba(245,240,232,0.3)", letterSpacing: "0.1em" }}>Discretion assured · Response within 2 hours</p>
             <div style={{ marginTop: "28px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "24px" }}>
-              {property.features.map(f => (
+              {(property.features || []).map(f => (
                 <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                   <span style={{ color: "#c9a96e", fontSize: "10px" }}>◎</span>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "rgba(245,240,232,0.45)" }}>{f}</span>
@@ -421,7 +333,7 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
             <div style={{ marginTop: "20px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "20px" }}>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.25)", marginBottom: "10px" }}>Channel Listed</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {property.channels.map(c => <span key={c} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "3px 10px", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", color: "rgba(245,240,232,0.3)", letterSpacing: "0.05em" }}>{c}</span>)}
+                {(property.channels || []).map(c => <span key={c} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "3px 10px", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", color: "rgba(245,240,232,0.3)", letterSpacing: "0.05em" }}>{c}</span>)}
               </div>
             </div>
           </div>
@@ -433,9 +345,9 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
         <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "36px", fontWeight: 300, color: "#f5f0e8", margin: "0 0 40px" }}>More from the Collection</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
           {others.map(p => (
-            <div key={p.id} onClick={() => onOther(p)} style={{ cursor: "pointer" }}>
+            <div key={p._id} onClick={() => onOther(p)} style={{ cursor: "pointer" }}>
               <div style={{ position: "relative", height: "200px", overflow: "hidden", marginBottom: "14px" }}>
-                <img src={p.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7) saturate(0.8)" }} />
+                <img src={getThumb(p)} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7) saturate(0.8)" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent, rgba(8,8,10,0.5))" }} />
                 <div style={{ position: "absolute", bottom: "12px", left: "12px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a96e" }}>{p.locationShort}</div>
               </div>
@@ -447,7 +359,7 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
       </div>
 
       <div style={{ background: "rgba(201,169,110,0.04)", borderTop: "1px solid rgba(201,169,110,0.1)", padding: "60px 48px", textAlign: "center" }}>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "14px" }}>Ready to Experience {property.name.split(" ")[0]}?</p>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "14px" }}>Ready to Experience {(property.name || "").split(" ")[0]}?</p>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.4)", maxWidth: "480px", margin: "0 auto 28px", lineHeight: 1.7 }}>Our team is available to discuss your stay, arrange private viewings, and curate every detail of your Cape Town experience.</p>
         <button onClick={() => setInquired(true)} style={{ background: "transparent", border: "1px solid rgba(201,169,110,0.5)", padding: "13px 36px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e" }}>Check Availability</button>
       </div>
@@ -458,7 +370,27 @@ function DetailPage({ property, onBack, onOther }: { property: Property; onBack:
 export default function Home() {
   const [view, setView] = useState("hero");
   const [selected, setSelected] = useState<Property | null>(null);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    client.fetch(propertiesQuery).then((data: Property[]) => {
+      setProperties(data);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, []);
+
   const handleSelect = (property: Property) => { setSelected(property); setView("detail"); };
+
+  if (loading) return (
+    <div style={{ background: "#08080a", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "15px", fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "#f5f0e8", marginBottom: "8px" }}>THE HIVE</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e" }}>LUXURY MANAGEMENT</div>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ background: "#08080a", minHeight: "100vh", color: "#f5f0e8" }}>
       <style>{`
@@ -471,9 +403,9 @@ export default function Home() {
       `}</style>
       <Grain />
       <Header onHome={() => setView(view === "hero" ? "collection" : "hero")} view={view} />
-      {view === "hero" && <Hero onExplore={() => setView("collection")} />}
-      {view === "collection" && <CollectionPage onSelect={handleSelect} />}
-      {view === "detail" && selected && <DetailPage property={selected} onBack={() => setView("collection")} onOther={handleSelect} />}
+      {view === "hero" && <Hero properties={properties} onExplore={() => setView("collection")} />}
+      {view === "collection" && <CollectionPage properties={properties} onSelect={handleSelect} />}
+      {view === "detail" && selected && <DetailPage property={selected} onBack={() => setView("collection")} onOther={handleSelect} allProperties={properties} />}
     </div>
   );
 }
