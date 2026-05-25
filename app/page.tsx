@@ -1,7 +1,8 @@
+'use client'
+
 import { useState, useEffect } from "react";
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
-const properties = [
+const properties: Property[] = [
   {
     id: 1,
     name: "XANADU",
@@ -30,7 +31,6 @@ const properties = [
       "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1400&q=85",
     ],
     channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-    color: "#c9a96e",
   },
   {
     id: 2,
@@ -60,7 +60,6 @@ const properties = [
       "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1400&q=85",
     ],
     channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-    color: "#c9a96e",
   },
   {
     id: 3,
@@ -90,7 +89,6 @@ const properties = [
       "https://images.unsplash.com/photo-1571939228382-b2f2b585ce15?w=1400&q=85",
     ],
     channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-    color: "#c9a96e",
   },
   {
     id: 4,
@@ -120,13 +118,37 @@ const properties = [
       "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=1400&q=85",
     ],
     channels: ["Airbnb", "Vrbo", "Direct", "Luxury Platforms"],
-    color: "#c9a96e",
   },
 ];
 
-const heroImage = "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1800&q=85";
+interface Property {
+  id: number;
+  name: string;
+  tagline: string;
+  location: string;
+  locationShort: string;
+  type: string;
+  status: string;
+  beds: number;
+  baths: number;
+  parking: number;
+  guests: number;
+  pool: string;
+  view: string;
+  kitchen: string;
+  laundry: string;
+  housekeeper: string;
+  petFriendly: string;
+  description: string;
+  shortDesc: string;
+  features: string[];
+  amenities: string[];
+  image: string;
+  thumb: string;
+  gallery: string[];
+  channels: string[];
+}
 
-// ─── GRAIN ────────────────────────────────────────────────────────────────────
 function Grain() {
   return (
     <div style={{
@@ -137,17 +159,14 @@ function Grain() {
   );
 }
 
-// ─── HEADER ───────────────────────────────────────────────────────────────────
-function Header({ onHome, view }) {
+function Header({ onHome, view }: { onHome: () => void; view: string }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
   const solid = scrolled || view !== "hero";
-
   return (
     <header style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 200,
@@ -158,341 +177,139 @@ function Header({ onHome, view }) {
       borderBottom: solid ? "1px solid rgba(201,169,110,0.12)" : "none",
       transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
     }}>
-      {/* Left: back link or all properties */}
       {view !== "hero" ? (
         <button onClick={onHome} style={{
           background: "none", border: "none", cursor: "pointer",
           fontFamily: "'DM Sans', sans-serif", fontSize: "10px",
           letterSpacing: "0.25em", textTransform: "uppercase",
           color: "rgba(245,240,232,0.5)",
-          display: "flex", alignItems: "center", gap: "8px",
-          transition: "color 0.2s",
-        }}
-          onMouseEnter={e => e.currentTarget.style.color = "#c9a96e"}
-          onMouseLeave={e => e.currentTarget.style.color = "rgba(245,240,232,0.5)"}
-        >
-          ← All Properties
-        </button>
+        }}>← All Properties</button>
       ) : (
         <div style={{ width: "120px" }} />
       )}
-
-      {/* Centre: wordmark */}
-      <button onClick={onHome} style={{
-        background: "none", border: "none", cursor: "pointer",
-        textAlign: "center",
-      }}>
-        <div style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: "15px", fontWeight: 500, letterSpacing: "0.3em",
-          textTransform: "uppercase", color: "#f5f0e8",
-        }}>THE HIVE</div>
-        <div style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-          letterSpacing: "0.4em", textTransform: "uppercase",
-          color: "#c9a96e", marginTop: "2px",
-        }}>LUXURY MANAGEMENT</div>
+      <button onClick={onHome} style={{ background: "none", border: "none", cursor: "pointer", textAlign: "center" }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "15px", fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "#f5f0e8" }}>THE HIVE</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginTop: "2px" }}>LUXURY MANAGEMENT</div>
       </button>
-
-      {/* Right: CTA */}
       <button style={{
         background: "transparent", border: "1px solid rgba(201,169,110,0.5)",
         borderRadius: "1px", padding: "9px 22px", cursor: "pointer",
         fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-        letterSpacing: "0.25em", textTransform: "uppercase",
-        color: "#c9a96e", transition: "all 0.3s",
-      }}
-        onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,169,110,0.1)"; e.currentTarget.style.borderColor = "#c9a96e"; }}
-        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(201,169,110,0.5)"; }}
-      >Inquire Now</button>
+        letterSpacing: "0.25em", textTransform: "uppercase", color: "#c9a96e",
+      }}>Inquire Now</button>
     </header>
   );
 }
 
-// ─── HERO ─────────────────────────────────────────────────────────────────────
-function Hero({ onExplore }) {
+function Hero({ onExplore }: { onExplore: () => void }) {
   const [mounted, setMounted] = useState(false);
   const [imgIdx, setImgIdx] = useState(0);
-
   useEffect(() => { setTimeout(() => setMounted(true), 150); }, []);
   useEffect(() => {
     const t = setInterval(() => setImgIdx(i => (i + 1) % properties.length), 5000);
     return () => clearInterval(t);
   }, []);
-
   return (
     <section style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
       {properties.map((p, i) => (
-        <img key={p.id} src={p.image} alt={p.name}
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.38) saturate(0.75)",
-            opacity: imgIdx === i ? 1 : 0,
-            transition: "opacity 1.8s cubic-bezier(0.16,1,0.3,1)",
-          }}
-        />
+        <img key={p.id} src={p.image} alt={p.name} style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", filter: "brightness(0.38) saturate(0.75)",
+          opacity: imgIdx === i ? 1 : 0,
+          transition: "opacity 1.8s cubic-bezier(0.16,1,0.3,1)",
+        }} />
       ))}
-
-      {/* Gradient */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(8,8,10,0.15) 0%, rgba(8,8,10,0.5) 55%, rgba(8,8,10,0.92) 100%)" }} />
+      <div style={{ position: "absolute", left: "48px", top: "50%", transform: "translateY(-50%)", width: "1px", height: "120px", background: "linear-gradient(to bottom, transparent, rgba(201,169,110,0.5), transparent)" }} />
       <div style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(to bottom, rgba(8,8,10,0.15) 0%, rgba(8,8,10,0.5) 55%, rgba(8,8,10,0.92) 100%)",
-      }} />
-
-      {/* Vertical rule left */}
-      <div style={{
-        position: "absolute", left: "48px", top: "50%", transform: "translateY(-50%)",
-        width: "1px", height: "120px",
-        background: "linear-gradient(to bottom, transparent, rgba(201,169,110,0.5), transparent)",
-      }} />
-
-      {/* Content */}
-      <div style={{
-        position: "absolute", inset: 0,
-        display: "flex", flexDirection: "column",
+        position: "absolute", inset: 0, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        opacity: mounted ? 1 : 0,
-        transform: mounted ? "translateY(0)" : "translateY(20px)",
+        opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)",
         transition: "all 1.4s cubic-bezier(0.16,1,0.3,1)",
       }}>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-          letterSpacing: "0.5em", textTransform: "uppercase",
-          color: "#c9a96e", marginBottom: "24px",
-        }}>Cape Town · Luxury Property Management</p>
-
-        <h1 style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: "clamp(56px, 8vw, 108px)", fontWeight: 300,
-          lineHeight: 0.95, textAlign: "center",
-          color: "#f5f0e8", letterSpacing: "-0.02em",
-          marginBottom: "8px",
-        }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.5em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "24px" }}>
+          Cape Town · Luxury Property Management
+        </p>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(56px, 8vw, 108px)", fontWeight: 300, lineHeight: 0.95, textAlign: "center", color: "#f5f0e8", letterSpacing: "-0.02em", marginBottom: "8px" }}>
           Effortless<br />
           <em style={{ color: "rgba(245,240,232,0.55)", fontStyle: "italic" }}>Luxury,</em><br />
           Lived.
         </h1>
-
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "13px",
-          color: "rgba(245,240,232,0.5)", letterSpacing: "0.05em",
-          marginTop: "24px", maxWidth: "420px", textAlign: "center",
-          lineHeight: 1.7,
-        }}>
-          Professionally managed villas and penthouses across Cape Town's most coveted addresses.
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.5)", letterSpacing: "0.05em", marginTop: "24px", maxWidth: "420px", textAlign: "center", lineHeight: 1.7 }}>
+          Professionally managed villas and penthouses across Cape Town&apos;s most coveted addresses.
         </p>
-
         <div style={{ display: "flex", gap: "16px", marginTop: "44px" }}>
-          <button onClick={onExplore} style={{
-            background: "#c9a96e", border: "none", borderRadius: "1px",
-            padding: "14px 36px", cursor: "pointer",
-            fontFamily: "'DM Sans', sans-serif", fontSize: "10px",
-            letterSpacing: "0.25em", textTransform: "uppercase",
-            color: "#08080a", fontWeight: 600, transition: "background 0.2s",
-          }}
-            onMouseEnter={e => e.target.style.background = "#d9bb85"}
-            onMouseLeave={e => e.target.style.background = "#c9a96e"}
-          >View Properties</button>
-
-          <button style={{
-            background: "transparent", border: "1px solid rgba(245,240,232,0.2)",
-            borderRadius: "1px", padding: "14px 36px", cursor: "pointer",
-            fontFamily: "'DM Sans', sans-serif", fontSize: "10px",
-            letterSpacing: "0.25em", textTransform: "uppercase",
-            color: "rgba(245,240,232,0.7)", transition: "all 0.2s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#c9a96e"; e.currentTarget.style.color = "#c9a96e"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(245,240,232,0.2)"; e.currentTarget.style.color = "rgba(245,240,232,0.7)"; }}
-          >Inquire Now</button>
+          <button onClick={onExplore} style={{ background: "#c9a96e", border: "none", borderRadius: "1px", padding: "14px 36px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#08080a", fontWeight: 600 }}>
+            View Properties
+          </button>
+          <button style={{ background: "transparent", border: "1px solid rgba(245,240,232,0.2)", borderRadius: "1px", padding: "14px 36px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(245,240,232,0.7)" }}>
+            Inquire Now
+          </button>
         </div>
-
-        {/* Property indicator dots */}
         <div style={{ display: "flex", gap: "8px", marginTop: "48px" }}>
           {properties.map((_, i) => (
-            <button key={i} onClick={() => setImgIdx(i)} style={{
-              width: imgIdx === i ? "24px" : "6px", height: "2px",
-              background: imgIdx === i ? "#c9a96e" : "rgba(245,240,232,0.2)",
-              border: "none", cursor: "pointer", padding: 0,
-              transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
-            }} />
+            <button key={i} onClick={() => setImgIdx(i)} style={{ width: imgIdx === i ? "24px" : "6px", height: "2px", background: imgIdx === i ? "#c9a96e" : "rgba(245,240,232,0.2)", border: "none", cursor: "pointer", padding: 0, transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)" }} />
           ))}
         </div>
       </div>
-
-      {/* Bottom location label */}
-      <div style={{
-        position: "absolute", bottom: "36px", left: "48px",
-        opacity: mounted ? 0.6 : 0, transition: "opacity 1s 0.8s",
-      }}>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-          letterSpacing: "0.3em", textTransform: "uppercase",
-          color: "#c9a96e", marginBottom: "4px",
-        }}>Currently Showing</p>
-        <p style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: "16px", color: "#f5f0e8", fontWeight: 300,
-        }}>{properties[imgIdx].name}</p>
+      <div style={{ position: "absolute", bottom: "36px", left: "48px", opacity: mounted ? 0.6 : 0, transition: "opacity 1s 0.8s" }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "4px" }}>Currently Showing</p>
+        <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "16px", color: "#f5f0e8", fontWeight: 300 }}>{properties[imgIdx].name}</p>
       </div>
     </section>
   );
 }
 
-// ─── PROPERTY CARD ────────────────────────────────────────────────────────────
-function PropertyCard({ property, onClick, index }) {
+function PropertyCard({ property, onClick, index }: { property: Property; onClick: (p: Property) => void; index: number }) {
   const [hovered, setHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setTimeout(() => setMounted(true), index * 100 + 100); }, []);
-
+  useEffect(() => { setTimeout(() => setMounted(true), index * 100 + 100); }, [index]);
   return (
-    <div
-      onClick={() => onClick(property)}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        cursor: "pointer",
-        opacity: mounted ? 1 : 0,
-        transform: mounted ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 0.7s, transform 0.7s cubic-bezier(0.16,1,0.3,1)`,
-      }}
-    >
-      {/* Image */}
-      <div style={{
-        position: "relative", height: "320px", overflow: "hidden",
-        marginBottom: "20px",
-      }}>
-        <img src={property.thumb} alt={property.name}
-          style={{
-            width: "100%", height: "100%", objectFit: "cover",
-            filter: "brightness(0.82) saturate(0.8)",
-            transform: hovered ? "scale(1.05)" : "scale(1)",
-            transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1), filter 0.4s",
-          }}
-        />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, transparent 40%, rgba(8,8,10,0.6) 100%)",
-          opacity: hovered ? 1 : 0.6, transition: "opacity 0.4s",
-        }} />
-
-        {/* Type badge */}
-        <div style={{
-          position: "absolute", top: "16px", left: "16px",
-          background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)",
-          border: "1px solid rgba(201,169,110,0.3)",
-          padding: "4px 12px",
-          fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-          letterSpacing: "0.2em", textTransform: "uppercase",
-          color: "#c9a96e",
-        }}>{property.type}</div>
-
-        {/* Stats overlay on hover */}
-        <div style={{
-          position: "absolute", bottom: "16px", left: "16px", right: "16px",
-          display: "flex", gap: "16px",
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? "translateY(0)" : "translateY(6px)",
-          transition: "all 0.3s",
-        }}>
-          {[
-            { label: "Beds", val: property.beds },
-            { label: "Baths", val: property.baths },
-            { label: "Guests", val: property.guests },
-          ].map(({ label, val }) => (
-            <div key={label} style={{
-              background: "rgba(8,8,10,0.7)", backdropFilter: "blur(8px)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              padding: "6px 12px", textAlign: "center",
-            }}>
+    <div onClick={() => onClick(property)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{ cursor: "pointer", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.7s, transform 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ position: "relative", height: "320px", overflow: "hidden", marginBottom: "20px" }}>
+        <img src={property.thumb} alt={property.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.82) saturate(0.8)", transform: hovered ? "scale(1.05)" : "scale(1)", transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, rgba(8,8,10,0.6) 100%)", opacity: hovered ? 1 : 0.6, transition: "opacity 0.4s" }} />
+        <div style={{ position: "absolute", top: "16px", left: "16px", background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(201,169,110,0.3)", padding: "4px 12px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a96e" }}>{property.type}</div>
+        <div style={{ position: "absolute", bottom: "16px", left: "16px", right: "16px", display: "flex", gap: "16px", opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(6px)", transition: "all 0.3s" }}>
+          {[{ label: "Beds", val: property.beds }, { label: "Baths", val: property.baths }, { label: "Guests", val: property.guests }].map(({ label, val }) => (
+            <div key={label} style={{ background: "rgba(8,8,10,0.7)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.08)", padding: "6px 12px", textAlign: "center" }}>
               <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "18px", color: "#f5f0e8" }}>{val}</div>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.15em", color: "rgba(245,240,232,0.5)", textTransform: "uppercase" }}>{label}</div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Text */}
       <div>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-          letterSpacing: "0.3em", textTransform: "uppercase",
-          color: "#c9a96e", marginBottom: "6px",
-        }}>{property.locationShort}</p>
-        <h3 style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: "28px", fontWeight: 400, color: "#f5f0e8",
-          margin: 0, lineHeight: 1,
-          borderBottom: hovered ? "1px solid rgba(201,169,110,0.3)" : "1px solid transparent",
-          paddingBottom: "10px", marginBottom: "10px",
-          transition: "border-color 0.3s",
-        }}>{property.name}</h3>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "12px",
-          color: "rgba(245,240,232,0.45)", lineHeight: 1.5,
-          letterSpacing: "0.02em",
-        }}>{property.tagline}</p>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "6px" }}>{property.locationShort}</p>
+        <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#f5f0e8", margin: 0, lineHeight: 1, borderBottom: hovered ? "1px solid rgba(201,169,110,0.3)" : "1px solid transparent", paddingBottom: "10px", marginBottom: "10px", transition: "border-color 0.3s" }}>{property.name}</h3>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(245,240,232,0.45)", lineHeight: 1.5, letterSpacing: "0.02em" }}>{property.tagline}</p>
       </div>
     </div>
   );
 }
 
-// ─── COLLECTION PAGE ──────────────────────────────────────────────────────────
-function CollectionPage({ onSelect }) {
+function CollectionPage({ onSelect }: { onSelect: (p: Property) => void }) {
   return (
     <div style={{ minHeight: "100vh", background: "#08080a", paddingTop: "72px" }}>
-      {/* Header */}
       <div style={{ padding: "64px 48px 48px", maxWidth: "1300px", margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
           <div>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-              letterSpacing: "0.4em", textTransform: "uppercase",
-              color: "#c9a96e", marginBottom: "14px",
-            }}>The Collection</p>
-            <h2 style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: "clamp(40px, 4.5vw, 64px)", fontWeight: 300,
-              color: "#f5f0e8", margin: 0, lineHeight: 1,
-              letterSpacing: "-0.01em",
-            }}>
-              Cape Town's Most<br />
-              <em style={{ color: "rgba(245,240,232,0.5)" }}>Coveted Addresses</em>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "14px" }}>The Collection</p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(40px, 4.5vw, 64px)", fontWeight: 300, color: "#f5f0e8", margin: 0, lineHeight: 1, letterSpacing: "-0.01em" }}>
+              Cape Town&apos;s Most<br /><em style={{ color: "rgba(245,240,232,0.5)" }}>Coveted Addresses</em>
             </h2>
           </div>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: "12px",
-            color: "rgba(245,240,232,0.35)", maxWidth: "280px",
-            textAlign: "right", lineHeight: 1.7, letterSpacing: "0.02em",
-          }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(245,240,232,0.35)", maxWidth: "280px", textAlign: "right", lineHeight: 1.7 }}>
             Each property is professionally managed by The Hive — discretion assured, response within 2 hours.
           </p>
         </div>
-
-        {/* Divider */}
-        <div style={{
-          marginTop: "40px", height: "1px",
-          background: "linear-gradient(to right, rgba(201,169,110,0.4), rgba(201,169,110,0.05))",
-        }} />
+        <div style={{ marginTop: "40px", height: "1px", background: "linear-gradient(to right, rgba(201,169,110,0.4), rgba(201,169,110,0.05))" }} />
       </div>
-
-      {/* Grid */}
-      <div style={{
-        padding: "0 48px 80px", maxWidth: "1300px", margin: "0 auto",
-        display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "60px 48px",
-      }}>
-        {properties.map((p, i) => (
-          <PropertyCard key={p.id} property={p} onClick={onSelect} index={i} />
-        ))}
+      <div style={{ padding: "0 48px 80px", maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "60px 48px" }}>
+        {properties.map((p, i) => <PropertyCard key={p.id} property={p} onClick={onSelect} index={i} />)}
       </div>
-
-      {/* Services strip */}
-      <div style={{
-        borderTop: "1px solid rgba(201,169,110,0.1)",
-        borderBottom: "1px solid rgba(201,169,110,0.1)",
-        padding: "40px 48px", maxWidth: "100%",
-        background: "rgba(201,169,110,0.03)",
-      }}>
+      <div style={{ borderTop: "1px solid rgba(201,169,110,0.1)", borderBottom: "1px solid rgba(201,169,110,0.1)", padding: "40px 48px", background: "rgba(201,169,110,0.03)" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {[
             { icon: "◎", label: "Privacy & Security", sub: "Gated estate, 24hr security" },
@@ -514,173 +331,56 @@ function CollectionPage({ onSelect }) {
   );
 }
 
-// ─── DETAIL PAGE ──────────────────────────────────────────────────────────────
-function DetailPage({ property, onBack, onOther }) {
+function DetailPage({ property, onBack, onOther }: { property: Property; onBack: () => void; onOther: (p: Property) => void }) {
   const [galleryIdx, setGalleryIdx] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [inquired, setInquired] = useState(false);
   const others = properties.filter(p => p.id !== property.id);
-
   useEffect(() => { window.scrollTo(0, 0); setTimeout(() => setMounted(true), 100); }, [property]);
-
   return (
     <div style={{ minHeight: "100vh", background: "#08080a", paddingTop: "72px" }}>
-
-      {/* Full-bleed hero gallery */}
-      <div style={{
-        position: "relative", height: "80vh", overflow: "hidden",
-        opacity: mounted ? 1 : 0, transition: "opacity 1s",
-      }}>
+      <div style={{ position: "relative", height: "80vh", overflow: "hidden", opacity: mounted ? 1 : 0, transition: "opacity 1s" }}>
         {property.gallery.map((img, i) => (
-          <img key={i} src={img} alt={`${property.name} ${i + 1}`}
-            style={{
-              position: "absolute", inset: 0, width: "100%", height: "100%",
-              objectFit: "cover", filter: "brightness(0.75) saturate(0.8)",
-              opacity: galleryIdx === i ? 1 : 0,
-              transition: "opacity 1s cubic-bezier(0.16,1,0.3,1)",
-            }}
-          />
+          <img key={i} src={img} alt={`${property.name} ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.75) saturate(0.8)", opacity: galleryIdx === i ? 1 : 0, transition: "opacity 1s cubic-bezier(0.16,1,0.3,1)" }} />
         ))}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.35) 60%, rgba(8,8,10,0.92) 100%)",
-        }} />
-
-        {/* Property title overlay */}
-        <div style={{
-          position: "absolute", bottom: "48px", left: "48px",
-          opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)",
-          transition: "all 0.8s 0.3s cubic-bezier(0.16,1,0.3,1)",
-        }}>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-            letterSpacing: "0.4em", textTransform: "uppercase",
-            color: "#c9a96e", marginBottom: "8px",
-          }}>{property.location}</p>
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "clamp(48px, 6vw, 84px)", fontWeight: 300,
-            color: "#f5f0e8", margin: 0, lineHeight: 0.95,
-            letterSpacing: "-0.02em",
-          }}>{property.name}</h1>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: "13px",
-            color: "rgba(245,240,232,0.5)", marginTop: "10px", letterSpacing: "0.05em",
-          }}>{property.tagline}</p>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.35) 60%, rgba(8,8,10,0.92) 100%)" }} />
+        <div style={{ position: "absolute", bottom: "48px", left: "48px", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)", transition: "all 0.8s 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "8px" }}>{property.location}</p>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(48px, 6vw, 84px)", fontWeight: 300, color: "#f5f0e8", margin: 0, lineHeight: 0.95, letterSpacing: "-0.02em" }}>{property.name}</h1>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.5)", marginTop: "10px" }}>{property.tagline}</p>
         </div>
-
-        {/* Gallery thumbnails */}
-        <div style={{
-          position: "absolute", bottom: "48px", right: "48px",
-          display: "flex", gap: "6px",
-        }}>
+        <div style={{ position: "absolute", bottom: "48px", right: "48px", display: "flex", gap: "6px" }}>
           {property.gallery.map((img, i) => (
-            <button key={i} onClick={() => setGalleryIdx(i)} style={{
-              width: "56px", height: "40px", padding: 0, border: "none",
-              cursor: "pointer", overflow: "hidden",
-              outline: galleryIdx === i ? "1px solid #c9a96e" : "1px solid rgba(255,255,255,0.1)",
-              outlineOffset: "2px",
-              transition: "outline-color 0.2s",
-            }}>
+            <button key={i} onClick={() => setGalleryIdx(i)} style={{ width: "56px", height: "40px", padding: 0, border: "none", cursor: "pointer", overflow: "hidden", outline: galleryIdx === i ? "1px solid #c9a96e" : "1px solid rgba(255,255,255,0.1)", outlineOffset: "2px" }}>
               <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7)" }} />
             </button>
           ))}
         </div>
-
-        {/* Status badge */}
-        <div style={{
-          position: "absolute", top: "24px", right: "48px",
-          background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)",
-          border: "1px solid rgba(201,169,110,0.35)",
-          padding: "6px 16px",
-          fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-          letterSpacing: "0.25em", textTransform: "uppercase",
-          color: "#c9a96e",
-        }}>{property.status}</div>
+        <div style={{ position: "absolute", top: "24px", right: "48px", background: "rgba(8,8,10,0.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(201,169,110,0.35)", padding: "6px 16px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#c9a96e" }}>{property.status}</div>
       </div>
 
-      {/* Content */}
-      <div style={{
-        maxWidth: "1300px", margin: "0 auto", padding: "64px 48px 80px",
-        display: "grid", gridTemplateColumns: "1fr 380px", gap: "80px",
-        opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)",
-        transition: "all 0.8s 0.2s cubic-bezier(0.16,1,0.3,1)",
-      }}>
-
-        {/* ── Left ── */}
+      <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "64px 48px 80px", display: "grid", gridTemplateColumns: "1fr 380px", gap: "80px", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)", transition: "all 0.8s 0.2s cubic-bezier(0.16,1,0.3,1)" }}>
         <div>
-          {/* Stats */}
-          <div style={{
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
-            borderTop: "1px solid rgba(201,169,110,0.15)",
-            borderBottom: "1px solid rgba(201,169,110,0.15)",
-            marginBottom: "48px",
-          }}>
-            {[
-              { label: "Bedrooms", val: property.beds },
-              { label: "Bathrooms", val: property.baths },
-              { label: "Parking", val: property.parking },
-              { label: "Max Guests", val: property.guests },
-            ].map(({ label, val }, i) => (
-              <div key={label} style={{
-                padding: "24px 0", textAlign: "center",
-                borderRight: i < 3 ? "1px solid rgba(201,169,110,0.1)" : "none",
-              }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderTop: "1px solid rgba(201,169,110,0.15)", borderBottom: "1px solid rgba(201,169,110,0.15)", marginBottom: "48px" }}>
+            {[{ label: "Bedrooms", val: property.beds }, { label: "Bathrooms", val: property.baths }, { label: "Parking", val: property.parking }, { label: "Max Guests", val: property.guests }].map(({ label, val }, i) => (
+              <div key={label} style={{ padding: "24px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(201,169,110,0.1)" : "none" }}>
                 <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "44px", fontWeight: 300, color: "#f5f0e8", lineHeight: 1 }}>{val}</div>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)", marginTop: "4px" }}>{label}</div>
               </div>
             ))}
           </div>
-
-          {/* Description */}
-          <p style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "22px", fontWeight: 300, lineHeight: 1.75,
-            color: "rgba(245,240,232,0.8)",
-            marginBottom: "48px",
-          }}>{property.description}</p>
-
-          {/* Amenity tags */}
+          <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "22px", fontWeight: 300, lineHeight: 1.75, color: "rgba(245,240,232,0.8)", marginBottom: "48px" }}>{property.description}</p>
           <div style={{ marginBottom: "48px" }}>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-              letterSpacing: "0.35em", textTransform: "uppercase",
-              color: "#c9a96e", marginBottom: "16px",
-            }}>Highlights</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.35em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "16px" }}>Highlights</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {property.amenities.map(a => (
-                <span key={a} style={{
-                  background: "rgba(201,169,110,0.07)", border: "1px solid rgba(201,169,110,0.2)",
-                  padding: "7px 16px",
-                  fontFamily: "'DM Sans', sans-serif", fontSize: "11px",
-                  letterSpacing: "0.08em", color: "rgba(245,240,232,0.65)",
-                }}>{a}</span>
-              ))}
+              {property.amenities.map(a => <span key={a} style={{ background: "rgba(201,169,110,0.07)", border: "1px solid rgba(201,169,110,0.2)", padding: "7px 16px", fontFamily: "'DM Sans', sans-serif", fontSize: "11px", letterSpacing: "0.08em", color: "rgba(245,240,232,0.65)" }}>{a}</span>)}
             </div>
           </div>
-
-          {/* Property details table */}
           <div>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-              letterSpacing: "0.35em", textTransform: "uppercase",
-              color: "#c9a96e", marginBottom: "16px",
-            }}>Property Details</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.35em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "16px" }}>Property Details</p>
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-              {[
-                ["Location", property.locationShort + ", Cape Town"],
-                ["Property Type", property.type],
-                ["Pool", property.pool],
-                ["View", property.view],
-                ["Kitchen", property.kitchen],
-                ["Laundry", property.laundry],
-                ["Housekeeper", property.housekeeper],
-                ["Pet Friendly", property.petFriendly],
-              ].map(([k, v]) => (
-                <div key={k} style={{
-                  display: "flex", justifyContent: "space-between",
-                  padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.05)",
-                }}>
+              {[["Location", property.locationShort + ", Cape Town"], ["Property Type", property.type], ["Pool", property.pool], ["View", property.view], ["Kitchen", property.kitchen], ["Laundry", property.laundry], ["Housekeeper", property.housekeeper], ["Pet Friendly", property.petFriendly]].map(([k, v]) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)" }}>{k}</span>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(245,240,232,0.7)" }}>{v}</span>
                 </div>
@@ -689,65 +389,27 @@ function DetailPage({ property, onBack, onOther }) {
           </div>
         </div>
 
-        {/* ── Right: Inquiry Panel ── */}
         <div>
-          <div style={{
-            background: "rgba(245,240,232,0.03)", backdropFilter: "blur(20px)",
-            border: "1px solid rgba(201,169,110,0.12)",
-            padding: "36px",
-            position: "sticky", top: "90px",
-          }}>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-              letterSpacing: "0.3em", textTransform: "uppercase",
-              color: "#c9a96e", marginBottom: "6px",
-            }}>Check Availability</p>
-            <h3 style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: "28px", fontWeight: 300, color: "#f5f0e8",
-              margin: "0 0 4px",
-            }}>{property.name}</h3>
+          <div style={{ background: "rgba(245,240,232,0.03)", backdropFilter: "blur(20px)", border: "1px solid rgba(201,169,110,0.12)", padding: "36px", position: "sticky", top: "90px" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "6px" }}>Check Availability</p>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "28px", fontWeight: 300, color: "#f5f0e8", margin: "0 0 4px" }}>{property.name}</h3>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "rgba(245,240,232,0.4)", marginBottom: "28px" }}>{property.locationShort}</p>
-
-            {/* Date fields */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", marginBottom: "1px" }}>
               {["Check-in", "Check-out"].map(label => (
-                <div key={label} style={{
-                  background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
-                  padding: "14px 16px",
-                }}>
+                <div key={label} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", padding: "14px 16px" }}>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.3)", margin: "0 0 4px" }}>{label}</p>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.5)", margin: 0 }}>Select date</p>
                 </div>
               ))}
             </div>
-            <div style={{
-              background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
-              padding: "14px 16px", marginBottom: "20px",
-            }}>
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", padding: "14px 16px", marginBottom: "20px" }}>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.3)", margin: "0 0 4px" }}>Guests</p>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.5)", margin: 0 }}>Up to {property.guests} guests</p>
             </div>
-
-            <button onClick={() => setInquired(!inquired)} style={{
-              width: "100%", padding: "16px",
-              background: inquired ? "rgba(201,169,110,0.1)" : "#c9a96e",
-              border: inquired ? "1px solid #c9a96e" : "none",
-              cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-              letterSpacing: "0.3em", textTransform: "uppercase",
-              color: inquired ? "#c9a96e" : "#08080a", fontWeight: 600,
-              transition: "all 0.3s", marginBottom: "14px",
-            }}>
+            <button onClick={() => setInquired(!inquired)} style={{ width: "100%", padding: "16px", background: inquired ? "rgba(201,169,110,0.1)" : "#c9a96e", border: inquired ? "1px solid #c9a96e" : "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: inquired ? "#c9a96e" : "#08080a", fontWeight: 600, transition: "all 0.3s", marginBottom: "14px" }}>
               {inquired ? "✓ Request Received" : "Inquire for Exclusive Access"}
             </button>
-
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-              textAlign: "center", color: "rgba(245,240,232,0.3)", letterSpacing: "0.1em",
-            }}>Discretion assured · Response within 2 hours</p>
-
-            {/* Service bullets */}
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", textAlign: "center", color: "rgba(245,240,232,0.3)", letterSpacing: "0.1em" }}>Discretion assured · Response within 2 hours</p>
             <div style={{ marginTop: "28px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "24px" }}>
               {property.features.map(f => (
                 <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
@@ -756,58 +418,26 @@ function DetailPage({ property, onBack, onOther }) {
                 </div>
               ))}
             </div>
-
-            {/* Channel logos */}
             <div style={{ marginTop: "20px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "20px" }}>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.25)", marginBottom: "10px" }}>Channel Listed</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {property.channels.map(c => (
-                  <span key={c} style={{
-                    background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)",
-                    padding: "3px 10px",
-                    fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-                    color: "rgba(245,240,232,0.3)", letterSpacing: "0.05em",
-                  }}>{c}</span>
-                ))}
+                {property.channels.map(c => <span key={c} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "3px 10px", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", color: "rgba(245,240,232,0.3)", letterSpacing: "0.05em" }}>{c}</span>)}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* More from the collection */}
-      <div style={{
-        borderTop: "1px solid rgba(201,169,110,0.1)",
-        padding: "64px 48px", maxWidth: "1300px", margin: "0 auto",
-      }}>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-          letterSpacing: "0.4em", textTransform: "uppercase",
-          color: "#c9a96e", marginBottom: "8px",
-        }}>Continue Exploring</p>
-        <h3 style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: "36px", fontWeight: 300, color: "#f5f0e8",
-          margin: "0 0 40px",
-        }}>More from the Collection</h3>
-
+      <div style={{ borderTop: "1px solid rgba(201,169,110,0.1)", padding: "64px 48px", maxWidth: "1300px", margin: "0 auto" }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "8px" }}>Continue Exploring</p>
+        <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "36px", fontWeight: 300, color: "#f5f0e8", margin: "0 0 40px" }}>More from the Collection</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
           {others.map(p => (
-            <div key={p.id} onClick={() => onOther(p)}
-              style={{ cursor: "pointer" }}
-            >
+            <div key={p.id} onClick={() => onOther(p)} style={{ cursor: "pointer" }}>
               <div style={{ position: "relative", height: "200px", overflow: "hidden", marginBottom: "14px" }}>
-                <img src={p.thumb} alt={p.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7) saturate(0.8)", transition: "transform 0.5s" }}
-                  onMouseEnter={e => e.target.style.transform = "scale(1.04)"}
-                  onMouseLeave={e => e.target.style.transform = "scale(1)"}
-                />
+                <img src={p.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7) saturate(0.8)" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent, rgba(8,8,10,0.5))" }} />
-                <div style={{
-                  position: "absolute", bottom: "12px", left: "12px",
-                  fontFamily: "'DM Sans', sans-serif", fontSize: "8px",
-                  letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a96e",
-                }}>{p.locationShort}</div>
+                <div style={{ position: "absolute", bottom: "12px", left: "12px", fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a96e" }}>{p.locationShort}</div>
               </div>
               <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "20px", color: "#f5f0e8", margin: "0 0 4px" }}>{p.name}</p>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "rgba(245,240,232,0.35)" }}>{p.tagline}</p>
@@ -816,66 +446,34 @@ function DetailPage({ property, onBack, onOther }) {
         </div>
       </div>
 
-      {/* CTA footer */}
-      <div style={{
-        background: "rgba(201,169,110,0.04)", borderTop: "1px solid rgba(201,169,110,0.1)",
-        padding: "60px 48px", textAlign: "center",
-      }}>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "14px" }}>
-          Ready to Experience {property.name.split(" ")[0]}?
-        </p>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.4)", marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px", lineHeight: 1.7 }}>
-          Our team is available to discuss your stay, arrange private viewings, and curate every detail of your Cape Town experience.
-        </p>
-        <button onClick={() => setInquired(true)} style={{
-          background: "transparent", border: "1px solid rgba(201,169,110,0.5)",
-          padding: "13px 36px", cursor: "pointer",
-          fontFamily: "'DM Sans', sans-serif", fontSize: "9px",
-          letterSpacing: "0.3em", textTransform: "uppercase",
-          color: "#c9a96e", transition: "all 0.3s",
-        }}
-          onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,169,110,0.1)"; e.currentTarget.style.borderColor = "#c9a96e"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(201,169,110,0.5)"; }}
-        >Check Availability</button>
+      <div style={{ background: "rgba(201,169,110,0.04)", borderTop: "1px solid rgba(201,169,110,0.1)", padding: "60px 48px", textAlign: "center" }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#c9a96e", marginBottom: "14px" }}>Ready to Experience {property.name.split(" ")[0]}?</p>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(245,240,232,0.4)", maxWidth: "480px", margin: "0 auto 28px", lineHeight: 1.7 }}>Our team is available to discuss your stay, arrange private viewings, and curate every detail of your Cape Town experience.</p>
+        <button onClick={() => setInquired(true)} style={{ background: "transparent", border: "1px solid rgba(201,169,110,0.5)", padding: "13px 36px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#c9a96e" }}>Check Availability</button>
       </div>
     </div>
   );
 }
 
-// ─── APP ──────────────────────────────────────────────────────────────────────
-export default function App() {
+export default function Home() {
   const [view, setView] = useState("hero");
-  const [selected, setSelected] = useState(null);
-
-  const handleSelect = (property) => {
-    setSelected(property);
-    setView("detail");
-  };
-
+  const [selected, setSelected] = useState<Property | null>(null);
+  const handleSelect = (property: Property) => { setSelected(property); setView("detail"); };
   return (
     <div style={{ background: "#08080a", minHeight: "100vh", color: "#f5f0e8" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #08080a; }
-        input::placeholder { color: rgba(245,240,232,0.3); }
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-track { background: #08080a; }
         ::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.25); }
       `}</style>
-
       <Grain />
       <Header onHome={() => setView(view === "hero" ? "collection" : "hero")} view={view} />
-
       {view === "hero" && <Hero onExplore={() => setView("collection")} />}
       {view === "collection" && <CollectionPage onSelect={handleSelect} />}
-      {view === "detail" && selected && (
-        <DetailPage
-          property={selected}
-          onBack={() => setView("collection")}
-          onOther={handleSelect}
-        />
-      )}
+      {view === "detail" && selected && <DetailPage property={selected} onBack={() => setView("collection")} onOther={handleSelect} />}
     </div>
   );
 }
